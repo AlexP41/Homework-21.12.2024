@@ -107,6 +107,8 @@ int main()
 
 	// Копіюємо другий масив
 	for (int i = 0; i < func_2_2_Result.second; i++) {
+
+		// виникає попередження Buffer overrun while writing to 'ultimateResultForExercise_2'.   не розумію чому
 		ultimateResultForExercise_2[func_2_1_Result.second + i] = resultArray_2_2[i];
 	}
 
