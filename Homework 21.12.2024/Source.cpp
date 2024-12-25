@@ -62,6 +62,9 @@ pair <T1*, int>  myFunc_1(int length1, int length2, T1* arr1, T2* arr2);
 template <typename T1, typename T2>
 pair<T1*, int> myFunc_2(int length1, int length2, T1* arr1, T2* arr2, bool outputText);
 
+template <typename T1, typename T2>
+pair<T1*, int> myFunc_3(int length1, int length2, T1* arr1, T2* arr2, bool outputText);
+
 int main()
 {
 	system("chcp 1251>null");
@@ -100,12 +103,12 @@ int main()
 	int totalSize = func_2_1_Result.second + func_2_2_Result.second;
 	int* ultimateResultForExercise_2 = new int[totalSize];
 
-	// Копіюємо перший масив
+
 	for (int i = 0; i < func_2_1_Result.second; i++) {
 		ultimateResultForExercise_2[i] = resultArray_2_1[i];
 	}
 
-	// Копіюємо другий масив
+	
 	for (int i = 0; i < func_2_2_Result.second; i++) {
 
 		// виникає попередження Buffer overrun while writing to 'ultimateResultForExercise_2'.   не розумію чому
@@ -114,12 +117,21 @@ int main()
 
 	outputArray(totalSize, "Масив - результат", ultimateResultForExercise_2);
 
+	exercise(3);
+
+	auto func_3_Result = myFunc_3(M, N, A, B, true);
+
+	int* resultArray_3 = func_3_Result.first;
+
+	outputArray(func_3_Result.second, "Масив - результат", resultArray_3);
+
 	delete[] A;
 	delete[] B;
 	delete[] resultArray_1;
 	delete[] resultArray_2_1;
 	delete[] resultArray_2_2;
 	delete[] ultimateResultForExercise_2;
+	delete[] resultArray_3;
 	return 0;
 }
 
@@ -286,3 +298,46 @@ pair<T1*, int> myFunc_2(int length1, int length2, T1* arr1, T2* arr2, bool outpu
 
 }
 
+// EXERCISE 3
+template <typename T1, typename T2>
+pair<T1*, int> myFunc_3(int length1, int length2, T1* arr1, T2* arr2, bool outputText) {
+	// Перевірка на різність типів
+	if (!is_same<T1, T2>::value) {
+		cout << endl << "\033[031mУВАГА! Типи масивів різні!\033[0m" << endl;
+		return { nullptr, -1 };
+	}
+
+	T1* mergedArray = new T1[length1 + length2];
+
+	int count = 0;
+
+
+	for (int i = 0; i < length1; i++) {
+		mergedArray[count++] = arr1[i];
+	}
+
+
+	for (int i = 0; i < length2; i++) {
+		bool isDuplicate = false;
+		for (int j = 0; j < count; j++) {
+			if (arr2[i] == mergedArray[j]) {
+				isDuplicate = true;
+				break;
+			}
+		}
+
+		if (!isDuplicate) {
+			mergedArray[count++] = arr2[i];
+		}
+	}
+
+	if (outputText)
+	{
+
+		cout << endl << "\033[032mНеобхідно створити третій масив мінімально можливого розміру,\n"
+			"у якому потрібно зібрати елементи обох масивів.\033[0m" << endl;
+	}
+
+	return { mergedArray, count };
+
+}
