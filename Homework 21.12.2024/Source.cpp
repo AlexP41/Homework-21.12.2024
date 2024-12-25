@@ -281,5 +281,6 @@ pair<T1*, int> myFunc_2(int length1, int length2, T1* arr1, T2* arr2, bool outpu
 	delete[] auxArray;
 
 	return { resultArray, count };
+
 }
 
